@@ -3,14 +3,22 @@
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" name="name" required
-        formControlName="name">
+        formControlName="name" [(ngModel)]="name">
     </div>
+
+    <span class="alert alert-danger alert-dismissable fade show" *ngIf="nameError">
+        {{ nameError }}
+    </span>
 
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" name="username" required
-        formControlName="username">
+        formControlName="username" [(ngModel)]="username">
     </div>
+
+    <span class="alert alert-danger alert-dismissable fade show" *ngIf="usernameError">
+        {{ usernameError }}
+    </span>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
