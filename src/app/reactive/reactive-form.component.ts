@@ -7,8 +7,28 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ReactiveFormComponent implements OnInit {
     form: FormGroup;
-    nameError: string;
-    usernameError: string;
+
+    formErrors = {
+        name: '',
+        username: '',
+        email: ''
+    };
+
+    validationMessages = {
+        name: {
+            required : 'Name is required.',
+            minlength: 'Name must be at least 3 characters.',
+            maxlength: 'Name can\'t be longer than 6 characters.'
+        },
+        username: {
+            required : 'Username is required.',
+            minlength: 'Username must be 3 characters.'
+        },
+        email: {
+            required : 'email is required.',
+
+        }
+    };
 
     constructor(private fb: FormBuilder) {}
 
@@ -21,47 +41,42 @@ export class ReactiveFormComponent implements OnInit {
         // Creation du formulaire.
         this.form = this.fb.group({
             name: ['', [Validators.minLength(3), Validators.maxLength(6)]],
-            username: ['', Validators.minLength(3)]
+            username: ['', Validators.minLength(3)],
+            adresses: this.fb.array([
+                this.fb.group({
+                    city: [''],
+                    country: ['']
+                })
+            ])
         });
 
         // Observe les changement et la validation.
         this.form.valueChanges.subscribe(data => this.validateForm());
-        console.log(this.form);
     }
 
     validateForm() {
-        this.nameError     = '';
-        this.usernameError = '';
+        // loop over the formErrors field names
+        for (const field in this.formErrors) {
+            // Clear that inpur field errors
+            this.formErrors[field] = '';
+
+            // Grab an input field by name
+            const input = this.form.get(field);
+
+            if (input.invalid && input.dirty) {
+                // Figure out the type of error
+                // Assign that type of error message to a variable
+                for (const error in input.errors) {
+                    // Assign that type of error message to a variable
+                    this.formErrors[field] = this.validationMessages[field][error];
+                }
+            }
+        }
 
         // Validation de chaque champs.
         const name     = this.form.get('name');
         const username = this.form.get('username');
 
-        if (name.invalid && name.dirty) {
-
-            if (name.errors['required']) {
-                this.nameError = 'name is required.';
-            }
-
-            if (name.errors['minlength']) {
-                this.nameError = 'Name must be at least  3 characters.';
-            }
-
-            if (name.errors['maxlength']) {
-                this.nameError = 'Name can\'t be more than 6 characters.';
-            }
-        }
-
-        if (username.invalid && username.dirty) {
-
-            if (username.errors['required']) {
-                this.usernameError = 'name is required.';
-            }
-
-            if (username.errors['minlength']) {
-                this.usernameError = 'Name must be at least  3 characters.';
-            }
-        }
     }
 
     processForm() {
