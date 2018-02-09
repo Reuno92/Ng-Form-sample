@@ -3,6 +3,11 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
     selector: 'reactive-form',
+    styles: [
+        'details > summary::-webkit-details-marker { display: none; }',
+        'details > summary { background: lightgrey; outline: none; }',
+        'details[open] > summary { background: rgba(0, 123, 255, .8); outline: none;}'
+    ],
     templateUrl: './reactive-form.component.html'
 })
 export class ReactiveFormComponent implements OnInit {
@@ -35,6 +40,7 @@ export class ReactiveFormComponent implements OnInit {
     ngOnInit() {
         // Construction du modèle de données pour le reactive form
         this.buildForm();
+        console.log(this.form);
     }
 
     buildForm() {
@@ -85,6 +91,7 @@ export class ReactiveFormComponent implements OnInit {
             city: [''],
             country: ['']
         }));
+        console.log(this.form);
     }
 
     removeAdress(i) {

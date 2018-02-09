@@ -1,35 +1,39 @@
 <form (ngSubmit)="processForm()" [formGroup]="form">
+    <section class="row">
+        <div class="form-group col-lg-3">
+            <label for="name">Name</label>
+            <input id="name" type="text" class="form-control" name="name" required
+                   formControlName="name" [(ngModel)]="name">
+        </div>
 
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input id="name" type="text" class="form-control" name="name" required
-               formControlName="name" [(ngModel)]="name">
-    </div>
+        <div class="alert alert-danger alert-dismissible fade show mt-2"
+             *ngIf="formErrors.name"
+             role="alert">
+            {{ formErrors.name }}
+        </div>
 
-    <span class="alert alert-danger alert-dismissable fade show"
-          *ngIf="formErrors.name">
-        {{ formErrors.name }}
-    </span>
+        <div class="form-group col-lg-3">
 
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input id="username" type="text" class="form-control" name="username" required
-               formControlName="username" [(ngModel)]="username">
-    </div>
+            <label [class]="{'text-danger': username}" for="username">Username</label>
 
-    <span class="alert alert-danger alert-dismissable fade show"
-          *ngIf="formErrors.username">
-        {{ formErrors.username }}
-    </span>
+            <input id="username" type="text" class="form-control" name="username" required
+                   formControlName="username" [(ngModel)]="username">
+        </div>
 
+        <div class="alert alert-danger alert-dismissable fade show mt-2"
+             *ngIf="formErrors.username"
+             role="alert">
+            {{ formErrors.username }}
+        </div>
+    </section>
     <!-- Addresses -->
     <div class="form-group" formArrayName="addresses">
         <div *ngFor="let address of form.controls.addresses.controls; let i = index;">
-
-            <div class="card" [formGroupName]="i">
-                <div class="card-heading bg-primary txt-left p-3">
+            <details class="card mb-2" [formGroupName]="i" open="open">
+                <summary class="card-heading txt-left p-3">
                     <h3 class="text-white d-inline">
-                        Adress #{{ i + 1 }}
+                        Adress # {{ i + 1 }}: {{ form.controls.addresses.controls[i].controls.city.value }} - {{
+                        form.controls.addresses.controls[i].controls.country.value }}
                         <div class="text-right ml-1 d-inline">
                             <a *ngIf="form.controls.addresses.controls.length > 1"
                                (click)="removeAdress(i)"
@@ -38,23 +42,47 @@
                             </a>
                         </div>
                     </h3>
-                </div>
+                </summary>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="city">
-                            City
-                        </label>
-                        <input id="city" type="text" class="form-control" formControlName="city" required>
-                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label for="city">
+                                City
+                            </label>
+                            <input id="city" type="text" class="form-control" formControlName="city" required
+                                   [minlength]="3">
 
-                    <div class="form-group">
-                        <label for="country">
-                            Country
-                        </label>
-                        <input type="text" id="country" class="form-control" formControlName="country" required>
+                            <div class="alert alert-danger alert-dismissable fade show mt-2"
+                                 *ngIf="form.controls.addresses.controls[i].controls.city.errors
+                             && form.controls.addresses.controls[i].controls.city.dirty"
+                                 role="alert">
+
+                            <span *ngIf="form.controls.addresses.controls[i].controls.city.errors.required">
+                                City is required.
+                            </span>
+
+                                <span *ngIf="form.controls.addresses.controls[i].controls.city.errors.minlength">
+                                City must be 3 characters long.
+                            </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-3">
+                            <label for="country">
+                                Country
+                            </label>
+                            <input type="text" id="country" class="form-control" formControlName="country" required>
+
+                            <div class="alert alert-danger alert-dismissable fade show mt-2"
+                                 *ngIf="form.controls.addresses.controls[i].controls.country.errors
+                             && form.controls.addresses.controls[i].controls.country.dirty"
+                                 role="alert">
+                                Country is required.
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </details>
 
         </div>
     </div>
