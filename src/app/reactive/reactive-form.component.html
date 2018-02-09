@@ -2,31 +2,42 @@
 
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" required
-        formControlName="name" [(ngModel)]="name">
+        <input id="name" type="text" class="form-control" name="name" required
+               formControlName="name" [(ngModel)]="name">
     </div>
 
-    <span class="alert alert-danger alert-dismissable fade show" *ngIf="formErrors.name">
+    <span class="alert alert-danger alert-dismissable fade show"
+          *ngIf="formErrors.name">
         {{ formErrors.name }}
     </span>
 
     <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" name="username" required
-        formControlName="username" [(ngModel)]="username">
+        <input id="username" type="text" class="form-control" name="username" required
+               formControlName="username" [(ngModel)]="username">
     </div>
 
-    <span class="alert alert-danger alert-dismissable fade show" *ngIf="formErrors.username">
+    <span class="alert alert-danger alert-dismissable fade show"
+          *ngIf="formErrors.username">
         {{ formErrors.username }}
     </span>
 
-    <!-- adresses -->
-    <div class="form-group" formArrayName="adresses">
-        <div *ngFor="let adress of form.controls.adresses.controls; let i = index;">
+    <!-- Addresses -->
+    <div class="form-group" formArrayName="addresses">
+        <div *ngFor="let address of form.controls.addresses.controls; let i = index;">
 
             <div class="card" [formGroupName]="i">
                 <div class="card-heading bg-primary txt-left p-3">
-                    <h3 class="text-white">Adress #{{ i + 1 }}</h3>
+                    <h3 class="text-white d-inline">
+                        Adress #{{ i + 1 }}
+                        <div class="text-right ml-1 d-inline">
+                            <a *ngIf="form.controls.addresses.controls.length > 1"
+                               (click)="removeAdress(i)"
+                               class="btn btn-danger text-white">
+                                Remove
+                            </a>
+                        </div>
+                    </h3>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -46,6 +57,11 @@
             </div>
 
         </div>
+    </div>
+
+    <!-- Add adress button -->
+    <div class="text-right">
+        <a (click)="addAdress()" class="btn btn-success text-white">Add Address</a>
     </div>
 
     <div class="form-group">

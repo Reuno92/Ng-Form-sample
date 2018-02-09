@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
     selector: 'reactive-form',
@@ -42,7 +42,7 @@ export class ReactiveFormComponent implements OnInit {
         this.form = this.fb.group({
             name: ['', [Validators.minLength(3), Validators.maxLength(6)]],
             username: ['', Validators.minLength(3)],
-            adresses: this.fb.array([
+            addresses: this.fb.array([
                 this.fb.group({
                     city: [''],
                     country: ['']
@@ -77,6 +77,19 @@ export class ReactiveFormComponent implements OnInit {
         const name     = this.form.get('name');
         const username = this.form.get('username');
 
+    }
+
+    addAdress() {
+        const addresses = <FormArray>this.form.get('addresses');
+        addresses.push(this.fb.group({
+            city: [''],
+            country: ['']
+        }));
+    }
+
+    removeAdress(i) {
+        const addresses = <FormArray>this.form.get('addresses');
+        addresses.removeAt(i);
     }
 
     processForm() {
