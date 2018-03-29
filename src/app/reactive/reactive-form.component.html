@@ -4,12 +4,11 @@
             <label for="name">Name</label>
             <input id="name" type="text" class="form-control" name="name" required
                    formControlName="name" [(ngModel)]="name">
-        </div>
 
-        <div class="alert alert-danger alert-dismissible fade show mt-2"
-             *ngIf="formErrors.name"
-             role="alert">
-            {{ formErrors.name }}
+            <div class="alert alert-danger alert-dismissible fade show mt-2"
+                 *ngIf="formErrors.name" role="alert">
+                {{ formErrors.name }}
+            </div>
         </div>
 
         <div class="form-group col-lg-3">
@@ -18,81 +17,77 @@
 
             <input id="username" type="text" class="form-control" name="username" required
                    formControlName="username" [(ngModel)]="username">
-        </div>
 
-        <div class="alert alert-danger alert-dismissable fade show mt-2"
-             *ngIf="formErrors.username"
-             role="alert">
-            {{ formErrors.username }}
+            <div class="alert alert-danger alert-dismissable fade show mt-2"
+                 *ngIf="formErrors.username" role="alert">
+                {{ formErrors.username }}
+            </div>
+
         </div>
     </section>
+
     <!-- Addresses -->
     <div class="form-group" formArrayName="addresses">
+
         <div *ngFor="let address of form.controls.addresses.controls; let i = index;">
+
             <details class="card mb-2" [formGroupName]="i" open="open">
                 <summary class="card-heading txt-left p-3">
                     <h3 class="text-white d-inline">
-                        Adress # {{ i + 1 }}: {{ form.controls.addresses.controls[i].controls.city.value }} - {{
-                        form.controls.addresses.controls[i].controls.country.value }}
+                        Adress # {{ i + 1 }}:
+                        {{ form.controls.addresses.controls[i].controls.city.value }} -
+                        {{ form.controls.addresses.controls[i].controls.country.value }}
+
                         <div class="text-right ml-1 d-inline">
-                            <a *ngIf="form.controls.addresses.controls.length > 1"
-                               (click)="removeAdress(i)"
+                            <a *ngIf="form.controls.addresses.controls.length > 1" (click)="removeAdress(i)"
                                class="btn btn-danger text-white">
                                 Remove
                             </a>
                         </div>
                     </h3>
                 </summary>
+
                 <div class="card-body">
                     <div class="row">
+
                         <div class="form-group col-lg-4">
-                            <label for="city">
-                                City
-                            </label>
-                            <input id="city" type="text" class="form-control" formControlName="city" required
-                                   [minlength]="3">
+                            <label for="city">City</label>
 
-                            <div class="alert alert-danger alert-dismissable fade show mt-2"
-                                 *ngIf="form.controls.addresses.controls[i].controls.city.errors
-                             && form.controls.addresses.controls[i].controls.city.dirty"
-                                 role="alert">
+                            <input id="city" type="text"
+                                   class="form-control" formControlName="city"
+                                   [minlength]="3" required>
 
-                            <span *ngIf="form.controls.addresses.controls[i].controls.city.errors.required">
-                                City is required.
-                            </span>
-
-                                <span *ngIf="form.controls.addresses.controls[i].controls.city.errors.minlength">
-                                City must be 3 characters long.
-                            </span>
+                            <div class="alert alert-danger alert-dismissible fade show mt-2"
+                                 *ngIf="formErrors.addresses[i].city" role="alert">
+                                {{ formErrors.addresses[i].city }}
                             </div>
-                        </div>
+                        </div> <!-- form-group -->
 
                         <div class="form-group col-lg-3">
-                            <label for="country">
-                                Country
-                            </label>
-                            <input type="text" id="country" class="form-control" formControlName="country" required>
+                            <label for="country">Country</label>
 
-                            <div class="alert alert-danger alert-dismissable fade show mt-2"
-                                 *ngIf="form.controls.addresses.controls[i].controls.country.errors
-                             && form.controls.addresses.controls[i].controls.country.dirty"
-                                 role="alert">
-                                Country is required.
+                            <input type="text" id="country" class="form-control"
+                                   formControlName="country" required>
+
+                            <div class="alert alert-danger alert-dismissible fade show mt-2"
+                                 *ngIf="formErrors.addresses[i].country" role="alert">
+                                {{ formErrors.addresses[i].country }}
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </details>
+                        </div> <!-- form-group -->
 
+                    </div> <!-- row -->
+                </div> <!-- card-body -->
+
+            </details>
         </div>
-    </div>
+    </div> <!-- form-group -->
 
     <!-- Add adress button -->
     <div class="text-right">
         <a (click)="addAdress()" class="btn btn-success text-white">Add Address</a>
-    </div>
+    </div> <!-- text-right -->
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
+    </div> <!-- form-group -->
 </form>
